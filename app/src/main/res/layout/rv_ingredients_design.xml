@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="6dp"
+    android:layout_marginVertical="6dp"
     app:cardElevation="4dp"
     app:cardCornerRadius="4dp">
 
@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
+        android:padding="4dp"
         android:scrollbars="vertical">
 
 
@@ -27,54 +28,50 @@
 
         <TextView
             android:id="@+id/name_food"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="88dp"
-            android:ellipsize="end"
+            android:layout_marginTop="4dp"
             android:maxLines="3"
+            android:textStyle="bold"
             android:singleLine="false"
             android:text="@string/name"
             android:textColor="@color/black"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/description_food"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/description_food"
+            android:layout_marginStart="24dp"
+            app:layout_constraintStart_toEndOf="@+id/image_food_ingredients"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/ingredients"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="7dp"
-            android:layout_marginVertical="4dp"
+            android:layout_marginVertical="16dp"
             android:ellipsize="end"
             android:maxLines="3"
             android:singleLine="false"
             android:text="@string/description"
             android:textColor="@color/black"
             android:textSize="13sp"
-            app:layout_constraintBottom_toTopOf="@+id/description_food"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/description_food"
+            android:layout_marginStart="24dp"
+            app:layout_constraintStart_toEndOf="@+id/image_food_ingredients"
             app:layout_constraintTop_toBottomOf="@+id/name_food" />
 
         <TextView
             android:id="@+id/description_food"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="117dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginBottom="39dp"
-
-            android:gravity="center"
+            android:maxLines="3"
+            android:layout_marginTop="16dp"
             android:text="75 TJS"
             android:textColor="@color/black"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ingredients"
+
             app:layout_constraintStart_toEndOf="@+id/image_food_ingredients"
-            app:layout_constraintTop_toBottomOf="@+id/ingredients" />
+             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
