@@ -459,24 +459,24 @@ class DataSource {
                 "2 пиццы и напиток",
                 "2 пиццы 25 см и напиток на выбор. Для компании из 2–4 человек",
                 94,
-                1,pizzaList().filterIndexed { index, _ -> (index < 2) }
+                1,pizzaList().filterIndexed { index, _ -> (index < 2) }+beveragesList().filterIndexed { index, _ -> (index < 1) }
             ),
             Food(
                 R.drawable.pizza_zakuski, "Пицца и 2 закуски",
                 "Пицца 30 см и 2 закуски на выбор. Для компании из 2–4 человек", 106, 1,
-                snackList().filterIndexed { index, _ -> (index < 1) }
+                pizzaList().filterIndexed { index, _ -> (index < 1) }+snackList().filterIndexed { index, _ -> (index < 2) }
             ),
             Food(
                 R.drawable.four_dodster, "4 Додстера",
-                "4 любых Додстера на выбор: Острый или Классический", 82, 1,pizzaList().filterIndexed { index, _ -> (index < 4) }
+                "4 любых Додстера на выбор: Острый или Классический", 82, 1, listOf(snackList()[4],snackList()[4],snackList()[4],snackList()[4])
             ),
             Food(
                 R.drawable.two_starter, "2 стартера",
-                "2 стартера", 41, 1,pizzaList().filterIndexed { index, _ -> (index < 2) }
+                "2 стартера", 41, 1, listOf(snackList()[6],snackList()[6])
             ),
             Food(
                 R.drawable.mix, "Пицца, додстер, напиток и соус",
-                "Пицца 25 см, додстер, напиток и соус. Для компании из 1–2 человек", 79, 1,pizzaList().filterIndexed{ index, _ -> (index < 5) }
+                "Пицца 25 см, додстер, напиток и соус. Для компании из 1–2 человек", 79, 1,pizzaList().filterIndexed{ index, _ -> (index < 1) }+snackList()[4]+beveragesList()[0]+snackList()[6]
             ),
         )
     }
