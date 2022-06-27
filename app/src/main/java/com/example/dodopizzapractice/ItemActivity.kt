@@ -42,12 +42,12 @@ class ItemActivity : AppCompatActivity() {
         val backButton: ImageView = findViewById(R.id.backButton)
         val ingredients: RecyclerView = findViewById(R.id.comboChoiceRV)
 
-        val bundle = intent.extras
-        val image = bundle!!.getInt("IMAGE")
-        val name = bundle.getString("NAME")
-        val description = bundle.getString("DESCRIPTION")
-        val price = bundle.getInt("PRICE")
-        val position = bundle.getInt("PIZZAPOSITION")
+        val bundle = intent.extras?.get("PIZZA") as Food
+        val image = bundle!!.imageId
+        val name = bundle.name
+        val description = bundle.description
+        val price = bundle.price
+//        val position = bundle.getInt("PIZZAPOSITION")
 
         foodItem.setImageResource(image)
         nameItem.text = name
@@ -58,7 +58,7 @@ class ItemActivity : AppCompatActivity() {
             finish()
         }
 
-        ingredientsList = getIngredients(position)?.toMutableList()
+        ingredientsList = bundle.ingredients?.toMutableList()
 
 
         adapter.submitList(ingredientsList ?: emptyList())

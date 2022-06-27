@@ -99,11 +99,11 @@ class MainActivity : AppCompatActivity() {
             override fun onItemClick(position: Int) {
                 val intent = Intent(this@MainActivity, ItemActivity::class.java)
 
-                intent.putExtra("NAME", myList[position].name)
-                intent.putExtra("DESCRIPTION", myList[position].description)
-                intent.putExtra("PRICE", myList[position].price)
-                intent.putExtra("IMAGE", myList[position].imageId)
-                intent.putExtra("PIZZAPOSITION", position)
+//                intent.putExtra("NAME", myList[position].name)
+//                intent.putExtra("DESCRIPTION", myList[position].description)
+//                intent.putExtra("PRICE", myList[position].price)
+//                intent.putExtra("IMAGE", myList[position].imageId)
+                intent.putExtra("PIZZA", myList[position])
                 startActivity(intent)
             }
 
