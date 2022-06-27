@@ -91,14 +91,14 @@ class ItemActivity : AppCompatActivity() {
     }
 
     private fun getChildData(updatedElement: Int) {
-        val listFood = viewModel.dataSource().getList(currentCategory)
+        val listFood = viewModel.dataSource.getList(currentCategory)
         ingredientsList!![currentPosition] = listFood[updatedElement]
         adapter.submitList(ingredientsList!!)
     }
 
 
     private fun getIngredients(position: Int): List<Food>? {
-        return viewModel.dataSource().comboList()[position].ingredients
+        return viewModel.dataSource.comboList()[position].ingredients
     }
     override fun onDestroy() {
         super.onDestroy()
