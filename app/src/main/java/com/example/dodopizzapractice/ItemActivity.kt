@@ -13,10 +13,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dodopizzapractice.databinding.ActivityItemBinding
+import com.example.dodopizzapractice.databinding.ActivityMainBinding
 
 class ItemActivity : AppCompatActivity() {
     private var _binding: ActivityItemBinding? = null
     private val binding get() = _binding!!
+
+
     private var ingredientsList: MutableList<Food>? = null
     private val adapter = IngredientsAdapter()
 
@@ -34,13 +37,15 @@ class ItemActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_item)
-        val foodItem: ImageView = findViewById(R.id.pizzaImage)
-        val nameItem: TextView = findViewById(R.id.name)
-        val descriptionItem: TextView = findViewById(R.id.description)
-        val priceItem: TextView = findViewById(R.id.price)
-        val backButton: ImageView = findViewById(R.id.backButton)
-        val ingredients: RecyclerView = findViewById(R.id.comboChoiceRV)
+
+        _binding = ActivityItemBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+//        val foodItem: ImageView = findViewById(R.id.pizzaImage)
+//        val nameItem: TextView = findViewById(R.id.name)
+//        val descriptionItem: TextView = findViewById(R.id.description)
+//        val priceItem: TextView = findViewById(R.id.price)
+//        val backButton: ImageView = findViewById(R.id.backButton)
+//        val ingredients: RecyclerView = findViewById(R.id.comboChoiceRV)
 
         val bundle = intent.extras?.get("PIZZA") as Food
         val image = bundle!!.imageId
@@ -49,23 +54,22 @@ class ItemActivity : AppCompatActivity() {
         val price = bundle.price
 //        val position = bundle.getInt("PIZZAPOSITION")
 
-        foodItem.setImageResource(image)
-        nameItem.text = name
-        descriptionItem.text = description
-        priceItem.text = "Добавить в корзину за ${price.toString()},00c"
+        binding.pizzaImage.setImageResource(image)
+        binding.name.text = name
+        binding.description.text = description
+        binding.price.text = "Добавить в корзину за ${price.toString()},00c"
 
-        backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             finish()
         }
-
         ingredientsList = bundle.ingredients?.toMutableList()
 
 
         adapter.submitList(ingredientsList ?: emptyList())
-        ingredients.adapter = adapter
+        binding.comboChoiceRV.adapter = adapter
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        ingredients.layoutManager = layoutManager
+        binding.comboChoiceRV.layoutManager = layoutManager
 
 
 
@@ -84,12 +88,10 @@ class ItemActivity : AppCompatActivity() {
     }
 
     private fun getChildData(updatedElement: Int) {
-        DataSource().category = currentCategory
-        val listFood = DataSource().getList()
+        val listFood = DataSource().getList(currentCategory)
 
         ingredientsList!![currentPosition] = listFood[updatedElement]
         adapter.submitList(ingredientsList!!)
-
     }
 
 

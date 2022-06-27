@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dodopizzapractice.databinding.ActivityMainBinding
@@ -17,15 +18,11 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
-    //Recycler view
-    private lateinit var categoriesList: RecyclerView
-    //ViewModel
-    private val viewModel=ViewModel()
+    // ViewModel для данной активити
+    private lateinit var viewModel: MainViewModel
 
-    private val foodCategoryAdapter = FoodCategoryAdapter()
-    private var foodAdapter = FoodAdapter(emptyList())
-
-
+    private val categoriesAdapter = FoodCategoryAdapter()
+    private val foodAdapter = FoodAdapter()
     private var chooseCityBottomSheet: BottomSheetDialog? = null
     private var aboutBannerBottomSheet: BottomSheetDialog? = null
 
@@ -37,13 +34,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        binding.foodsListRv.adapter = foodAdapter
+        binding.categoriesList.adapter = categoriesAdapter
 
+        setupListeners()
         setupCategoriesList()
+        /**
+         * Изначально выбрать список по умолчанию
+         * по категории 1 - комбо
+         */
+        setupFoodList(1)
+
+
+
+
         setupCityBottomSheet()
         setupBannerBottomSheet()
-
         binding.cityName.text = "Душанбе"
-
         binding.text1.setOnClickListener {
             binding.text2.setBackgroundResource(R.color.darkGray)
             binding.address2.visibility = View.INVISIBLE
@@ -61,66 +69,45 @@ class MainActivity : AppCompatActivity() {
             chooseCityBottomSheet?.show()
         }
 
-        // method for calling categories recycler view
-
-        /// method for calling chosen category and calling its foods
-        setupFoodList(1)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
-    private fun refreshCategory(categorySelectedID:Int){
-        val currentCategories=viewModel.categoryList
-        for (item in viewModel.categoryList) {
-            item.isSelected = item.id == categorySelectedID
-            }
-        viewModel.updateCategory(currentCategories)
-        foodCategoryAdapter.submitList(currentCategories)
 
-        setupFoodList(categorySelectedID)
-    }
-    private fun setupListeners(){
-        foodCategoryAdapter.onItemClick={ refreshCategory(it)}
+    /** --------------------------------------------------------------------------------------------
+     *  private
+     * -------------------------------------------------------------------------------------------*/
 
+    private fun setupListeners() {
+        categoriesAdapter.onItemClick = { refreshCategoriesList(it) }
+        foodAdapter.onItemClick = {
+            val intent = Intent(this@MainActivity, ItemActivity::class.java)
+
+            intent.putExtra("PIZZA", it)
+            startActivity(intent)
+        }
     }
 
     private fun setupCategoriesList() {
-        categoriesList = findViewById(R.id.categories_list)
-        val categories = viewModel.getCategory()
-        setupListeners()
-        foodCategoryAdapter.submitList(categories)
-        categoriesList.adapter = foodCategoryAdapter
+        val categories = viewModel.categories
+        categoriesAdapter.submitList(categories)
     }
 
-    private fun setupFoodListener(myList:List<Food>){
-        foodAdapter.setOnItemClickListener(object: FoodAdapter.onItemClickListener{
-            override fun onItemClick(position: Int) {
-                val intent = Intent(this@MainActivity, ItemActivity::class.java)
-
-//                intent.putExtra("NAME", myList[position].name)
-//                intent.putExtra("DESCRIPTION", myList[position].description)
-//                intent.putExtra("PRICE", myList[position].price)
-//                intent.putExtra("IMAGE", myList[position].imageId)
-                intent.putExtra("PIZZA", myList[position])
-                startActivity(intent)
-            }
-
-        })
-
+    private fun refreshCategoriesList(selectedCategoryId: Int) {
+        val currentCategories = viewModel.categories
+        for (item in currentCategories) {
+            item.isSelected = item.id == selectedCategoryId
+        }
+        viewModel.updateCategories(currentCategories)
+        categoriesAdapter.submitList(currentCategories)
+        setupFoodList(selectedCategoryId)
     }
 
     private fun setupFoodList(categoryId: Int) {
-        val data=viewModel.data
-        data.category = categoryId
-        foods = findViewById(R.id.foods_list_rv)
-        val myList = data.getList()
-        foodAdapter = FoodAdapter(myList)
-        setupFoodListener(myList)
-        foods.adapter = foodAdapter
-
-
+        val foods = viewModel.getFoodById(categoryId)
+        foodAdapter.submitList(foods)
     }
 
     private fun setupCityBottomSheet() {
@@ -172,3 +159,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+
+

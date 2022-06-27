@@ -9,19 +9,18 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dodopizzapractice.databinding.ActivityIngredientsViewPageBinding
+import com.example.dodopizzapractice.databinding.ActivityItemBinding
 
 class IngredientsViewPage : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
-    private var currrentPositionAapter = 0
+    private var _binding: ActivityIngredientsViewPageBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ingredients_view_page)
-
-        recyclerView = findViewById(R.id.ingredients_choice)
-        val backButton: ImageButton = findViewById(R.id.back_ingredients_button)
-
+        _binding = ActivityIngredientsViewPageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val intent = intent
 
@@ -33,21 +32,21 @@ class IngredientsViewPage : AppCompatActivity() {
         adapter.submitList(ingredientsComboList)
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = layoutManager
-        recyclerView.scrollToPosition(pos)
+        binding.ingredientsChoice.adapter = adapter
+        binding.ingredientsChoice.layoutManager = layoutManager
+        binding.ingredientsChoice.scrollToPosition(pos)
 
-        currrentPositionAapter = pos + 1
+        binding.numberChoice.text =
+            "${pos+1} / ${ingredientsComboList.size}"
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.ingredientsChoice.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState==RecyclerView.SCROLL_STATE_IDLE && layoutManager.findLastCompletelyVisibleItemPosition() >= 0){
-                    findViewById<TextView>(R.id.number_choice).text =
+                    binding.numberChoice.text =
                         "${layoutManager.findFirstVisibleItemPosition()+1} / ${ingredientsComboList.size}"
-                    findViewById<TextView>(R.id.number_choice).text =
+                    binding.numberChoice.text =
                         "${layoutManager.findLastCompletelyVisibleItemPosition()+1} / ${ingredientsComboList.size}"
-
                 }
             }
         })
@@ -62,17 +61,15 @@ class IngredientsViewPage : AppCompatActivity() {
             finish()
         }
 
-        backButton.setOnClickListener {
+        binding.backIngredientsButton.setOnClickListener {
             finish()
         }
 
 
     }
 
-
     fun getIngredients(category: Int): List<Food> {
-        DataSource().category = category
-        return DataSource().getList()
+        return DataSource().getList(category)
     }
 
 }
