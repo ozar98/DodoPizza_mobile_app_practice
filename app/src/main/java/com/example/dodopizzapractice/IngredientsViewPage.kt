@@ -28,7 +28,7 @@ class IngredientsViewPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityIngredientsViewPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel= ViewModelProvider(this)[IngredientsViewModel::class.java]
+        viewModel = ViewModelProvider(this)[IngredientsViewModel::class.java]
 
         val intent = intent
 
@@ -38,7 +38,7 @@ class IngredientsViewPage : AppCompatActivity() {
 
         val ingredientsComboList = getIngredients(category)
 
-        setupAdapter(ingredientsComboList,pos)
+        setupAdapter(ingredientsComboList, pos)
 
         updatePage(ingredientsComboList)
 
@@ -55,11 +55,10 @@ class IngredientsViewPage : AppCompatActivity() {
         binding.backIngredientsButton.setOnClickListener {
             finish()
         }
-
-
     }
+
     @SuppressLint("SetTextI18n")
-    private fun setupAdapter(ingredientsComboList: List<Food>, pos:Int){
+    private fun setupAdapter(ingredientsComboList: List<Food>, pos: Int) {
         comboAdapter.submitList(ingredientsComboList)
 
 
@@ -68,18 +67,17 @@ class IngredientsViewPage : AppCompatActivity() {
         binding.ingredientsChoice.scrollToPosition(pos)
 
         binding.numberChoice.text =
-            "${pos+1} / ${ingredientsComboList.size}"
+            "${pos + 1} / ${ingredientsComboList.size}"
     }
-    private fun updatePage(ingredientsComboList:List<Food>) {
+
+    private fun updatePage(ingredientsComboList: List<Food>) {
         binding.ingredientsChoice.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             @SuppressLint("SetTextI18n")
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (newState==RecyclerView.SCROLL_STATE_IDLE && layoutManager.findLastCompletelyVisibleItemPosition() >= 0){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && layoutManager.findLastCompletelyVisibleItemPosition() >= 0) {
                     binding.numberChoice.text =
-                        "${layoutManager.findFirstVisibleItemPosition()+1} / ${ingredientsComboList.size}"
-                    binding.numberChoice.text =
-                        "${layoutManager.findLastCompletelyVisibleItemPosition()+1} / ${ingredientsComboList.size}"
+                        "${layoutManager.findLastCompletelyVisibleItemPosition() + 1} / ${ingredientsComboList.size}"
                 }
             }
         })

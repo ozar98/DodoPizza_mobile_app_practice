@@ -46,12 +46,11 @@ class ItemActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.comboChoiceRV.layoutManager = layoutManager
-
+        //getting data from Main Activity
         getParentData(bundle)
-
+        //parse data into visual elements
         setupIngredientsList(bundle)
-
-
+        //adapter's onclick method, data transfer to child activity
         setupListener()
         binding.backButton.setOnClickListener {
             finish()
@@ -60,10 +59,13 @@ class ItemActivity : AppCompatActivity() {
     }
 
     private fun setupIngredientsList(bundle:Food){
+        // taking data from bundle (parent activity) and submitting it to adapter
         ingredientsList = bundle.ingredients?.toMutableList()
         adapter.submitList(ingredientsList ?: emptyList())
     }
+
     private fun setupListener(){
+        //data transfer to next activity and launching ActivityResultLauncher
         adapter.onItemClick = { category, b ->
             val intent = Intent(this, IngredientsViewPage::class.java)
             intent.putExtra("CATEGORY", category)
@@ -73,16 +75,15 @@ class ItemActivity : AppCompatActivity() {
             currentPosition = b
 
             activityResultLauncher.launch(intent)
-
         }
     }
 
     private fun getParentData(bundle: Food){
+
         val image = bundle!!.imageId
         val name = bundle.name
         val description = bundle.description
         val price = bundle.price
-
 
         binding.pizzaImage.setImageResource(image)
         binding.name.text = name
@@ -96,10 +97,6 @@ class ItemActivity : AppCompatActivity() {
         adapter.submitList(ingredientsList!!)
     }
 
-
-    private fun getIngredients(position: Int): List<Food>? {
-        return viewModel.dataSource.comboList()[position].ingredients
-    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

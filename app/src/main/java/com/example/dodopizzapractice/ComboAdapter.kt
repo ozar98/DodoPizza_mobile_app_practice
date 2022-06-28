@@ -26,7 +26,7 @@ class ComboAdapter(): RecyclerView.Adapter<ComboAdapter.ComboViewHolder>() {
     override fun onBindViewHolder(holder: ComboViewHolder, position: Int) {
         holder.imageView.setImageResource(listCombo[position].imageId)
         holder.name.text=listCombo[position].name
-        holder.size.text=listCombo[position].ingredients.toString()
+        holder.size.text=listCombo[position].consistOf
         holder.description.text=listCombo[position].description
         onViewChange?.invoke(position+1)
     }

@@ -31,7 +31,7 @@ class MainViewModel : ViewModel() {
 }
 
 class ItemViewModel: ViewModel(){
-    public val dataSource=DataSource()
+    val dataSource=DataSource()
 
     var categories = mutableListOf(
         FoodCategory(1, "Комбо", true),

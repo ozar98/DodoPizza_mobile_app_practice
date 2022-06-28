@@ -24,7 +24,7 @@ class IngredientsAdapter(): RecyclerView.Adapter<IngredientsAdapter.IngredientsV
     override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
         holder.image.setImageResource(listIngredients[position].imageId)
         holder.name.text=listIngredients[position].name
-        holder.ingredients.text= listIngredients[position].ingredients.toString()
+        holder.ingredients.text= listIngredients[position].consistOf
         holder.description.text=listIngredients[position].description
 
     }

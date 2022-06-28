@@ -7,4 +7,5 @@ data class Food(val imageId: Int,
            val description: String,
            val price: Int,
            val category: Int,
-           val ingredients:List<Food>? =null):Serializable
+           val ingredients:List<Food>? =null,
+           val consistOf:String?=null):Serializable
