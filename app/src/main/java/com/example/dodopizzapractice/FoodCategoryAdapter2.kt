@@ -1,6 +1,7 @@
 package com.example.dodopizzapractice
 
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 class FoodCategoryAdapter2:
     ListAdapter<FoodCategory,FoodCategoryAdapter2.FoodCategoryViewHolder>
         (FoodCategoryDiffUtil()) {
-
     var onItemClick:((Int)->Unit)?=null
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodCategoryAdapter2.FoodCategoryViewHolder {
         return FoodCategoryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.rv_item_category,parent,false))
     }
@@ -24,8 +23,8 @@ class FoodCategoryAdapter2:
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: FoodCategoryAdapter2.FoodCategoryViewHolder, position: Int) {
         holder.button.text=getItem(position).category
-
         if (getItem(position).isSelected){
+
             holder.button.setBackgroundResource(R.drawable.button_click_active_design)
             holder.button.setTextColor(holder.itemView.resources.getColor(R.color.color_text_categoryfilter_selected,null))
         }else {
@@ -55,8 +54,5 @@ class FoodCategoryAdapter2:
                 onItemClick?.invoke(getItem(adapterPosition).id)
             }
         }
-
     }
-
-
 }

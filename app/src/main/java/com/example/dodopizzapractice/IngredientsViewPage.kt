@@ -61,7 +61,6 @@ class IngredientsViewPage : AppCompatActivity() {
     private fun setupAdapter(ingredientsComboList: List<Food>, pos: Int) {
         comboAdapter.submitList(ingredientsComboList)
 
-
         binding.ingredientsChoice.adapter = comboAdapter
         binding.ingredientsChoice.layoutManager = layoutManager
         binding.ingredientsChoice.scrollToPosition(pos)

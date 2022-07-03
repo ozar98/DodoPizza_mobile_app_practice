@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -37,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         binding.foodsListRv.adapter = foodAdapter
         binding.categoriesList.adapter = categoriesAdapter
-
         setupListeners()
         setupCategoriesList()
         /**
@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
          * по категории 1 - комбо
          */
         setupFoodList(1)
-
 
         setupCityBottomSheet()
         setupBannerBottomSheet()
@@ -79,7 +78,7 @@ class MainActivity : AppCompatActivity() {
      * -------------------------------------------------------------------------------------------*/
 
     private fun setupListeners() {
-        categoriesAdapter.onItemClick = { refreshCategoriesList(it) }
+        categoriesAdapter.onItemClick = { setupCategoriesList(it) }
         foodAdapter.onItemClick = {
             val intent = Intent(this@MainActivity, ItemActivity::class.java)
 
@@ -88,20 +87,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupCategoriesList() {
-        val categories = viewModel.categories
-        categoriesAdapter.submitList(categories)
-    }
-
-    private fun refreshCategoriesList(selectedCategoryId: Int) {
-        val currentCategories = viewModel.categories
-        for (item in currentCategories) {
-            item.isSelected = item.id == selectedCategoryId
-        }
-        viewModel.updateCategories(currentCategories)
-        categoriesAdapter.submitList(currentCategories)
+    private fun setupCategoriesList(selectedCategoryId: Int = 1) {
+        categoriesAdapter.submitList(
+            viewModel.getUpdatedCategories(selectedCategoryId)
+        )
         setupFoodList(selectedCategoryId)
     }
+
+//    private fun refreshCategoriesList(selectedCategoryId: Int) {
+//        val currentCategories =  viewModel.categories
+//
+//        for (item in currentCategories) {
+//            item.isSelected = item.id == selectedCategoryId
+//        }
+//
+//        categoriesAdapter.submitList(currentCategories)
+//        setupFoodList(selectedCategoryId)
+//    }
 
     private fun setupFoodList(categoryId: Int) {
         val foods = viewModel.getFoodById(categoryId)

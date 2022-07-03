@@ -1,6 +1,15 @@
 package com.example.dodopizzapractice
 
 class DataSource {
+    var categories = mutableListOf(
+        FoodCategory(1, "Комбо", true),
+        FoodCategory(2, "Закуски", false),
+        FoodCategory(3, "Напитки", false),
+        FoodCategory(4, "Пицца", false),
+        FoodCategory(5, "Десерты", false),
+        FoodCategory(6, "Соусы", false),
+        FoodCategory(7, "Другие товары", false),
+    )
 
     fun getList(category: Int): List<Food> {
         var listOfFood = listOf<Food>()

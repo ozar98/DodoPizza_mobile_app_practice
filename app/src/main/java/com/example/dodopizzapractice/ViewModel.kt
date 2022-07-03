@@ -1,6 +1,9 @@
 package com.example.dodopizzapractice
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 //VIEW MODEL
 class MainViewModel : ViewModel() {
@@ -17,8 +20,18 @@ class MainViewModel : ViewModel() {
         FoodCategory(7, "Другие товары", false),
     )
 
-    fun updateCategories(newCategories: List<FoodCategory>) {
-        categories = newCategories.toMutableList()
+    fun getUpdatedCategories(selectedCategoryId: Int): List<FoodCategory> {
+        viewModelScope.launch(Dispatchers.IO) {
+
+        }
+        return categories.map {
+            val newObj = FoodCategory(
+                id = it.id,
+                category = it.category,
+                isSelected = it.id == selectedCategoryId
+            )
+            newObj
+        }
     }
 
     fun getFoodById(id: Int = 1): List<Food> {
